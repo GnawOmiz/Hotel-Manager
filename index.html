@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Manager</title>
+</head>
+<body>
+    <h1>Hotel Room Manager</h1>
+    <p style="color: green;">{{ message }}</p>
+
+    <h2>Check In</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="check_in">
+        Name: <input name="name" required>
+        Room #: <input name="room" type="number" min="1" max="40" required>
+        <button type="submit">Check In</button>
+    </form>
+
+    <h2>Check Out</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="check_out">
+        Name: <input name="name" required>
+        <button type="submit">Check Out</button>
+    </form>
+
+    <h2>Mark Room Clean</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="clean_room">
+        Room #: <input name="room" type="number" min="1" max="40" required>
+        <button type="submit">Mark Clean</button>
+    </form>
+
+    <h2>Change Room Cost</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="change_cost">
+        Room #: <input name="room" type="number" min="1" max="40" required>
+        New Cost: <input name="cost" type="number" step="0.01" required>
+        <button type="submit">Change Cost</button>
+    </form>
+
+    <h2>Current Data</h2>
+    <p><strong>Customers:</strong> {{ info.customers }}</p>
+    <p><strong>Occupied Rooms:</strong> {{ info.occupied_rooms | map('add', 1) | list }}</p>
+    <p><strong>Dirty Rooms:</strong> {{ info.dirty_rooms | map('add', 1) | list }}</p>
+    <p><strong>Clean Rooms:</strong> {{ info.clean_rooms | map('add', 1) | list }}</p>
+</body>
+</html>
