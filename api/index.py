@@ -1,16 +1,12 @@
 from flask import Flask, request, render_template, redirect, url_for
 import os
 import pickle
-from pathlib import Path
 
 app = Flask(__name__, template_folder="../templates")
 
-# File paths - changed to local paths
-DATA_DIR = Path("data")  # Will create a 'data' directory in your project folder
-DATA_DIR.mkdir(exist_ok=True)  # Create directory if it doesn't exist
-
-INFO_PATH = DATA_DIR / "info.pkl"
-COSTS_PATH = DATA_DIR / "costs.pkl"
+# File paths (Vercel allows writes only to /tmp)
+INFO_PATH = "/tmp/info.pkl"
+COSTS_PATH = "/tmp/costs.pkl"
 NUM_ROOMS = 40
 DEFAULT_COST = 100.0
 
@@ -18,7 +14,7 @@ def load_pickle(path, default):
     try:
         with open(path, "rb") as f:
             return pickle.load(f)
-    except (FileNotFoundError, EOFError, pickle.PickleError):
+    except:
         return default
 
 def save_pickle(path, data):
@@ -86,5 +82,5 @@ def index():
 
     return render_template("index.html", info=info, costs=costs, message=message)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# Required by Vercel
+app.run()
